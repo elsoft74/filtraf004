@@ -1,0 +1,11 @@
+<?php
+    define("SERVER","localhost");
+    define("UNAME","");
+    define("PASSWORD","");
+    define("DBNAME","");
+    define("SENDEREMAIL","");
+    define("SENDERSERVER","");
+    define("SENDERUSERNAME","");
+    define("SENDERPASSWORD","");
+    define("SENDERPORT",465);
+    define("SENDERNAME","");

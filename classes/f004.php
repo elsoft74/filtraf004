@@ -60,7 +60,7 @@
             $this->IdAspCompetenza = $val['IdAspCompetenza'];
             $this->Telefono = $val['Telefono'];
             $this->Mail = $val['Mail'];
-            $this->IdCategoria = $val['IdCategoria'];
+            $this->IdCategoria = ($val['IdCategoria']==12 && $val['AltraCategoria']=='')?20:$val['IdCategoria'];
             $this->AltraCategoria = $val['AltraCategoria'];
             $this->Motivo = $val['Motivo'];
             $this->IdSintomatologia = $val['IdSintomatologia'];
@@ -251,17 +251,28 @@
         }
 
         function pulisciNomeCognome(){
-            $this->Nome=str_replace("`","'",$this->Nome);
-            $this->Nome=str_replace("-"," ",$this->Nome);
-            $this->Nome=str_replace("_"," ",$this->Nome);
-            $this->Cognome=str_replace("`","'",$this->Cognome);
-            $this->Cognome=str_replace("-"," ",$this->Cognome);
-            $this->Cognome=str_replace("_"," ",$this->Cognome);
+            $keys=['Nome','Cognome'];
+            foreach($keys as $key){
+                $this->$key=str_replace("`","'",$this->$key);
+                $this->$key=str_replace("-"," ",$this->$key);
+                $this->$key=str_replace("_"," ",$this->$key);
+                $this->$key=str_replace("À","A'",$this->$key);
+                $this->$key=str_replace("È","E'",$this->$key);
+                $this->$key=str_replace("Ì","I'",$this->$key);
+                $this->$key=str_replace("Ò","O'",$this->$key);
+                $this->$key=str_replace("Ù","U'",$this->$key);
+                $this->$key=str_replace("à","a'",$this->$key);
+                $this->$key=str_replace("è","e'",$this->$key);
+                $this->$key=str_replace("é","e'",$this->$key);
+                $this->$key=str_replace("ì","i'",$this->$key);
+                $this->$key=str_replace("ò","o'",$this->$key);
+                $this->$key=str_replace("ù","u'",$this->$key);
+            }
+
         }
 
         function pulisciContatti(){
-            $invalide=array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","(",")");
-            $this->Telefono=str_replace("-"," ",$this->Telefono);
+            $invalide=array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","(",")","-","/",".");
             $this->Telefono=strtolower($this->Telefono);
             $this->Telefono=str_replace($invalide," ",$this->Telefono);
             $this->Telefono=str_replace("  "," ",$this->Telefono);

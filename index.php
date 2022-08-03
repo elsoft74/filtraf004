@@ -47,7 +47,7 @@
         <div id="results" class="mb-3">
         </div>
         <div class="mb-3">
-            <input class="button form-control" value="Pulisci" type="submit" id="submitbutton" onclick="clean()">
+            <input class="button form-control" value="Svuota elenco" type="submit" id="submitbutton" onclick="clean()">
         </div>
     </div>
     <div id="loader"></div>

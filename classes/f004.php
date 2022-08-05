@@ -224,6 +224,7 @@
                     if("E"!==$out){
                         $this->pulisciNomeCognome();
                         $this->pulisciContatti();
+                        $this->pulisciMotivo();
                         $out="F";
                     }
                 }
@@ -282,28 +283,35 @@
             $this->Mail=str_replace(".@","@",$this->Mail);
         }
 
+        function pulisciMotivo(){
+            $valide=array("SCREENING","CONTACT TRACING");
+            if (!in_array(strtoupper($this->$Motivo),$valide)){
+                $this->$Motivo="SCREENING";
+            }
+        }
+
         function formattaData($val,$key){
             $this->$key = $val[$key];
-            $this->$key = str_replace(" Gen ","-01-",$this->$key);
-            $this->$key = str_replace(" Jan ","-01-",$this->$key);
-            $this->$key = str_replace(" Feb ","-02-",$this->$key);
-            $this->$key = str_replace(" Mar ","-03-",$this->$key);
-            $this->$key = str_replace(" Apr ","-04-",$this->$key);
-            $this->$key = str_replace(" Mag ","-05-",$this->$key);
-            $this->$key = str_replace(" May ","-05-",$this->$key);
-            $this->$key = str_replace(" Giu ","-06-",$this->$key);
-            $this->$key = str_replace(" Jun ","-06-",$this->$key);
-            $this->$key = str_replace(" Lug ","-07-",$this->$key);
-            $this->$key = str_replace(" Jul ","-07-",$this->$key);
-            $this->$key = str_replace(" Ago ","-08-",$this->$key);
-            $this->$key = str_replace(" Aug ","-08-",$this->$key);
-            $this->$key = str_replace(" Set ","-09-",$this->$key);
-            $this->$key = str_replace(" Sep ","-09-",$this->$key);
-            $this->$key = str_replace(" Ott ","-10-",$this->$key);
-            $this->$key = str_replace(" Oct ","-10-",$this->$key);
-            $this->$key = str_replace(" Nov ","-11-",$this->$key);
-            $this->$key = str_replace(" Dic ","-12-",$this->$key);
-            $this->$key = str_replace(" Dec ","-12-",$this->$key);
+            $this->$key = str_replace(" GEN ","-01-",strtoupper($this->$key));
+            $this->$key = str_replace(" JAN ","-01-",strtoupper($this->$key));
+            $this->$key = str_replace(" FEB ","-02-",strtoupper($this->$key));
+            $this->$key = str_replace(" MAR ","-03-",strtoupper($this->$key));
+            $this->$key = str_replace(" APR ","-04-",strtoupper($this->$key));
+            $this->$key = str_replace(" MAG ","-05-",strtoupper($this->$key));
+            $this->$key = str_replace(" MAY ","-05-",strtoupper($this->$key));
+            $this->$key = str_replace(" GIU ","-06-",strtoupper($this->$key));
+            $this->$key = str_replace(" JUN ","-06-",strtoupper($this->$key));
+            $this->$key = str_replace(" LUG ","-07-",strtoupper($this->$key));
+            $this->$key = str_replace(" JUL ","-07-",strtoupper($this->$key));
+            $this->$key = str_replace(" AGO ","-08-",strtoupper($this->$key));
+            $this->$key = str_replace(" AUG ","-08-",strtoupper($this->$key));
+            $this->$key = str_replace(" SET ","-09-",strtoupper($this->$key));
+            $this->$key = str_replace(" SEP ","-09-",strtoupper($this->$key));
+            $this->$key = str_replace(" OTT ","-10-",strtoupper($this->$key));
+            $this->$key = str_replace(" OCT ","-10-",strtoupper($this->$key));
+            $this->$key = str_replace(" NOV ","-11-",strtoupper($this->$key));
+            $this->$key = str_replace(" DIC ","-12-",strtoupper($this->$key));
+            $this->$key = str_replace(" DEC ","-12-",strtoupper($this->$key));
         }
 
         function checkIdStruttura(){

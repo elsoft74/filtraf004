@@ -137,7 +137,7 @@
                             case "E":
                                 array_push($spreadsheets['ESISTENTI']->spreadArray,$elemento->asArray());
                                 break;
-                            default:
+                            case "A":
                                 array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
                                 break;
                         }
@@ -228,8 +228,8 @@
 
         function controlla(){
             $out = ""; // Assumerà il valore "E"->esistente "F"->F004 "A"->ALTRI
-            if ($this->checkCF()){
-                if($this->checkIdStruttura()){
+            if($this->checkIdStruttura()){
+                if ($this->checkCF()){
                     $out=$this->checkIsNew();
                     if("E"!==$out){
                         $this->pulisciNomeCognome();
@@ -238,10 +238,10 @@
                         DB::inserisci($this->hash);
                         $out="F";
                     }
+                    } else {
+                        $out = "A";
+                    }
                 }
-            } else {
-                $out = "A";
-            }
             return $out;
         }
 
@@ -301,10 +301,11 @@
         }
 
         function pulisciMotivo(){
-            $valide=array("SCREENING","CONTACT TRACING");
-            if (!in_array(strtoupper($this->Motivo),$valide)){
+
+            // $valide=array("SCREENING","CONTACT TRACING");
+            // if (!in_array(strtoupper($this->Motivo),$valide)){
                 $this->Motivo="SCREENING";
-            }
+            // }
         }
 
         function formattaData($val,$key){

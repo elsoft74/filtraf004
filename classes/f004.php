@@ -195,8 +195,7 @@
                 ->setCellValue('AE1', 'DataEsecuzione')
                 ->setCellValue('AF1', 'IdStrutturaEsecuzione')
                 ->setCellValue('AG1', 'Metodica')
-                ->setCellValue('AH1', 'PositivitaTmp')
-                ->setCellValue('AI1', 'hash');
+                ->setCellValue('AH1', 'PositivitaTmp');
             return $spreadsheet;
         }
 
@@ -261,7 +260,7 @@
         
         function checkIsNew(){
             $out = DB::esiste($this->hash);
-            //var_dump($out);
+            var_dump($out);
             return($out->data==1)?"E":"F";
         }
 

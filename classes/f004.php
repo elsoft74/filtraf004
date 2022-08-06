@@ -260,8 +260,8 @@
         
         function checkIsNew(){
             $out = DB::esiste($this->hash);
-            var_dump($out);
-            return($out->data==1)?"E":"F";
+            //var_dump($out);
+            return($out->data=="1")?"E":"F";
         }
 
         function pulisciNomeCognome(){

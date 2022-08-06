@@ -9,10 +9,9 @@
     try{
         $fileName = $_FILES["file"]["name"]; 
         $fileTmpLoc = $_FILES["file"]["tmp_name"];
-        $invia=array_key_exists("invia",$_POST)?$_POST["invia"]=="true":false;
-        $cancella=array_key_exists("cancella",$_POST)?$_POST["cancella"]=="true":false;
+        $etichetta=array_key_exists("etichetta",$_POST)?$_POST["etichetta"]:"";
         //var_dump($_POST);
-        $out=F004::elabora($fileTmpLoc,$invia,$cancella);
+        $out=F004::elabora($fileTmpLoc,$etichetta);
         //$out->status="OK";
     } catch(Exception $ex){
         $out->error=$ex->getMessage();

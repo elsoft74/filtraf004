@@ -38,6 +38,10 @@
                 <input class="form-control" name="file" type="file" id="formFile" accept=".xls, .xlsx, .csv">
             </div>
             <div class="mb-3">
+                <label for="formEtichetta" class="form-label">Etichetta per file di output</label>
+                <input class="form-control" name="etichetta" type="etichetta" id="formEtichetta">
+            </div>
+            <div class="mb-3">
                 <input class="button form-control" type="submit" id="submitbutton" onclick="upload()">
             </div>
         </form>

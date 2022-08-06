@@ -45,11 +45,12 @@
         public $IdStrutturaEsecuzione;
         public $Metodica;
         public $PositivitaTmp;
+        public $hash;
         
         public function __construct($val){
             $this->Cognome = $val['Cognome'];
             $this->Nome = $val['Nome'];
-            $this->CodiceFiscale = array_key_exists("IdentificativoPaziente",$val)?$val['IdentificativoPaziente']:$val['CodiceFiscale'];
+            $this->CodiceFiscale = array_key_exists("IdentificativoPaziente",$val)?strtoupper($val['IdentificativoPaziente']):strtoupper($val['CodiceFiscale']);
             $this->Sesso = $val['Sesso'];
             $this->formattaData($val,'DataDiNascita');
             $this->IdLuogoNascita = $val['IdLuogoNascita'];
@@ -81,12 +82,13 @@
             $this->IdStrutturaEsecuzione = array_key_exists("idStrutturaExt",$val)?$val['idStrutturaExt']:$val['IdStrutturaEsecuzione'];
             $this->Metodica = $val['Metodica'];
             $this->PositivitaTmp = $val['PositivitaTmp'];
+            $this->hash=hash("sha256",$this->CodiceFiscale.$this->IdStrutturaEsecuzione.$this->DataEsecuzione.$this->PositivitaTmp);
         }
         
 
 
 
-        static function elabora($fileTmpLoc,$invia,$cancella){
+        static function elabora($fileTmpLoc,$etichetta){
             $out = new StdClass();
             $out->status = "KO";
             $out->data = new StdClass();
@@ -103,6 +105,10 @@
                     $tmpObj->spread = F004::inizializza();
                     $tmpObj->spreadArray = [];
                     $spreadsheets['F004']=$tmpObj;
+                    $tmpObj = new StdClass();
+                    $tmpObj->spread = F004::inizializza();
+                    $tmpObj->spreadArray = [];
+                    $spreadsheets['ESISTENTI']=$tmpObj;
                     
                     $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($fileTmpLoc);
                     $reader->setReadDataOnly(true);
@@ -124,17 +130,21 @@
                     }
                     foreach($rows as $row){
                         $elemento = new F004($row);
-                        if ("F"==$elemento->controlla()){
-                            array_push($spreadsheets['F004']->spreadArray,$elemento->asArray());
+                        switch($elemento->controlla()){
+                            case "F":
+                                array_push($spreadsheets['F004']->spreadArray,$elemento->asArray());
+                                break;
+                            case "E":
+                                array_push($spreadsheets['ESISTENTI']->spreadArray,$elemento->asArray());
+                                break;
+                            default:
+                                array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
+                                break;
                         }
-                        
-                        if ("A"==$elemento->controlla()){
-                            array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
-                        }
-                    }
-                    F004::genera($spreadsheets['ALTRI'],"ALTRI");
-                    F004::genera($spreadsheets['F004'],"F004");
-                    
+                    }   
+                    F004::genera($spreadsheets['ALTRI'],"ALTRI_".$etichetta);
+                    F004::genera($spreadsheets['F004'],"F004_".$etichetta);
+                    F004::genera($spreadsheets['ESISTENTI'],"ESISTENTI_".$etichetta);
 
                     $out->status="OK";
                 } else {
@@ -185,7 +195,8 @@
                 ->setCellValue('AE1', 'DataEsecuzione')
                 ->setCellValue('AF1', 'IdStrutturaEsecuzione')
                 ->setCellValue('AG1', 'Metodica')
-                ->setCellValue('AH1', 'PositivitaTmp');
+                ->setCellValue('AH1', 'PositivitaTmp')
+                ->setCellValue('AI1', 'hash');
             return $spreadsheet;
         }
 
@@ -225,6 +236,7 @@
                         $this->pulisciNomeCognome();
                         $this->pulisciContatti();
                         $this->pulisciMotivo();
+                        DB::inserisci($this->hash);
                         $out="F";
                     }
                 }
@@ -248,7 +260,9 @@
         }
         
         function checkIsNew(){
-            return "";
+            $out = DB::esiste($this->hash);
+            //var_dump($out);
+            return($out->data==1)?"E":"F";
         }
 
         function pulisciNomeCognome(){
@@ -274,6 +288,7 @@
 
         function pulisciContatti(){
             $invalide=array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","(",")","-","/",".");
+            $numeriinvalidi=array("0","00","000","0000");
             $this->Telefono=strtolower($this->Telefono);
             $this->Telefono=str_replace($invalide," ",$this->Telefono);
             $this->Telefono=str_replace("  "," ",$this->Telefono);
@@ -281,12 +296,15 @@
             $this->Mail=str_replace("@@","@",$this->Mail);
             $this->Mail=str_replace("@.","@",$this->Mail);
             $this->Mail=str_replace(".@","@",$this->Mail);
+            if(in_array($this->Telefono,$numeriinvalidi)){
+                $this->Telefono="";
+            }
         }
 
         function pulisciMotivo(){
             $valide=array("SCREENING","CONTACT TRACING");
-            if (!in_array(strtoupper($this->$Motivo),$valide)){
-                $this->$Motivo="SCREENING";
+            if (!in_array(strtoupper($this->Motivo),$valide)){
+                $this->Motivo="SCREENING";
             }
         }
 

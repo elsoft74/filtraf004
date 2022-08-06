@@ -15,6 +15,7 @@ function upload() {
     formData.append("invia",$("#invia").prop("checked"));
     formData.append("cancella",$("#cancella").prop("checked"));
     formData.append("file", f);
+    formData.append("etichetta",$("#formEtichetta").val());
     xhr.open("POST", url, true);
     xhr.onreadystatechange = function () {
         try {

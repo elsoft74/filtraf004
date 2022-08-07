@@ -220,7 +220,7 @@
             );
             $file->getActiveSheet()->getAutoFilter()->setRangeToMaxRow();
             $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($file);
-            $filename = $label."_".$now->format("d-m_Hi")."_".".xlsx";
+            $filename = "_".$now->format("d-m_Hi")."_".$label.".xlsx";
             $pathAndName="../output/".$filename;
             $writer->save($pathAndName);           
             return $out;
@@ -229,12 +229,12 @@
         function controlla(){
             $out = ""; // Assumerà il valore "E"->esistente "F"->F004 "A"->ALTRI
             if(!$this->checkIdStrutturaIsASP()){
+                $this->pulisciNomeCognome();
+                $this->pulisciContatti();
+                $this->pulisciMotivo();
                 if ($this->checkCF()){
                     $out=$this->checkIsNew();
                     if("E"!==$out){
-                        $this->pulisciNomeCognome();
-                        $this->pulisciContatti();
-                        $this->pulisciMotivo();
                         DB::inserisci($this->hash);
                         $out="F";
                     }
@@ -336,7 +336,7 @@
         }
 
         function checkIdStrutturaIsASP(){
-            return ("190205"===$this->IdStrutturaEsecuzione);
+            return ("190205"==$this->IdStrutturaEsecuzione || 190205==$this->IdStrutturaEsecuzione);
         }
 
         function asArray(){

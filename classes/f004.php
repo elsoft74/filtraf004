@@ -228,7 +228,7 @@
 
         function controlla(){
             $out = ""; // Assumerà il valore "E"->esistente "F"->F004 "A"->ALTRI
-            if($this->checkIdStruttura()){
+            if(!$this->checkIdStrutturaIsASP()){
                 if ($this->checkCF()){
                     $out=$this->checkIsNew();
                     if("E"!==$out){
@@ -287,10 +287,13 @@
 
         function pulisciContatti(){
             $invalide=array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","(",")","-","/",".");
-            $numeriinvalidi=array("0","00","000","0000");
+            //$numeriinvalidi=array("0","00","000","0000");
             $this->Telefono=strtolower($this->Telefono);
             $this->Telefono=str_replace($invalide," ",$this->Telefono);
             $this->Telefono=str_replace("  "," ",$this->Telefono);
+            if (strlen($this->Telefono)<7){
+                $this->Telefono="";
+            }
             $this->Mail=strtolower($this->Mail);
             $this->Mail=str_replace("@@","@",$this->Mail);
             $this->Mail=str_replace("@.","@",$this->Mail);
@@ -332,8 +335,8 @@
             $this->$key = str_replace(" DEC ","-12-",strtoupper($this->$key));
         }
 
-        function checkIdStruttura(){
-            return ("190205"!==$this->IdStrutturaEsecuzione);
+        function checkIdStrutturaIsASP(){
+            return ("190205"===$this->IdStrutturaEsecuzione);
         }
 
         function asArray(){

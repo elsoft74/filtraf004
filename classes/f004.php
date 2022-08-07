@@ -142,9 +142,9 @@
                                 break;
                         }
                     }   
-                    F004::genera($spreadsheets['ALTRI'],"ALTRI_".$etichetta);
+                    F004::genera($spreadsheets['ALTRI'],"F004_ALTRI_".$etichetta);
                     F004::genera($spreadsheets['F004'],"F004_".$etichetta);
-                    F004::genera($spreadsheets['ESISTENTI'],"ESISTENTI_".$etichetta);
+                    F004::genera($spreadsheets['ESISTENTI'],"F004_ESISTENTI_".$etichetta);
 
                     $out->status="OK";
                 } else {

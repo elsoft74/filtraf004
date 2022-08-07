@@ -220,7 +220,7 @@
             );
             $file->getActiveSheet()->getAutoFilter()->setRangeToMaxRow();
             $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($file);
-            $filename = "_".$now->format("d-m_Hi")."_".$label.".xlsx";
+            $filename = $label.".xlsx";
             $pathAndName="../output/".$filename;
             $writer->save($pathAndName);           
             return $out;

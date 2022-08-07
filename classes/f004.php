@@ -298,9 +298,9 @@
             $this->Mail=str_replace("@@","@",$this->Mail);
             $this->Mail=str_replace("@.","@",$this->Mail);
             $this->Mail=str_replace(".@","@",$this->Mail);
-            if(in_array($this->Telefono,$numeriinvalidi)){
+            /*if(in_array($this->Telefono,$numeriinvalidi)){
                 $this->Telefono="";
-            }
+            }*/
         }
 
         function pulisciMotivo(){

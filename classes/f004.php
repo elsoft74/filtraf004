@@ -58,10 +58,10 @@
             $this->IndirizzoResidenza = $val['IndirizzoResidenza'];
             $this->IdLuogoDomicilio = $val['IdLuogoDomicilio'];
             $this->IndirizzoDomicilio = $val['IndirizzoDomicilio'];
-            $this->IdAspCompetenza = $val['IdAspCompetenza'];
+            $this->IdAspCompetenza = ($val['IdAspCompetenza']=='')?205:$val['IdAspCompetenza'];
             $this->Telefono = $val['Telefono'];
             $this->Mail = $val['Mail'];
-            $this->IdCategoria = ($val['IdCategoria']==12 && $val['AltraCategoria']=='')?20:$val['IdCategoria'];
+            $this->IdCategoria = (($val['IdCategoria']==12 && $val['AltraCategoria']=='')||$val['IdCategoria']=='')?20:$val['IdCategoria'];
             $this->AltraCategoria = $val['AltraCategoria'];
             $this->Motivo = $val['Motivo'];
             $this->IdSintomatologia = $val['IdSintomatologia'];

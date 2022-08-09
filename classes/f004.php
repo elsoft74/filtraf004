@@ -291,16 +291,16 @@
             $this->Telefono=strtolower($this->Telefono);
             $this->Telefono=str_replace($invalide,"",$this->Telefono);
             $this->Telefono=str_replace("  "," ",$this->Telefono);
-            if (strlen($this->Telefono)<7 || intval($this->Telefono)){
+            if (strlen($this->Telefono)<7 || intval($this->Telefono)==0){
                 $this->Telefono="";
             }
             $this->Mail=strtolower($this->Mail);
             $this->Mail=str_replace("@@","@",$this->Mail);
             $this->Mail=str_replace("@.","@",$this->Mail);
             $this->Mail=str_replace(".@","@",$this->Mail);
-            if(in_array($this->Telefono,$numeriinvalidi)){
-                $this->Telefono="";
-            }
+            //if(in_array($this->Telefono,$numeriinvalidi)){
+            //    $this->Telefono="";
+            //}
         }
 
         function pulisciMotivo(){

@@ -286,7 +286,7 @@
         }
 
         function pulisciContatti(){
-            $invalide=array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","(",")","-","/",".","//","\\",",");
+            $invalide=array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","(",")","-","/",".","//","\\",",","à","è","é","ì","ò","ù");
             //$numeriinvalidi=array("0","00","000","0000");
             $this->Telefono=strtolower($this->Telefono);
             $this->Telefono=str_replace($invalide,"",$this->Telefono);

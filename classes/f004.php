@@ -79,9 +79,9 @@
             $this->IdPresidio = $val['IdPresidio'];
             $this->formattaData($val,'DataDecesso');
             $this->formattaData($val,'DataEsecuzione');
-            $this->IdStrutturaEsecuzione = array_key_exists("idStrutturaExt",$val)?$val['idStrutturaExt']:$val['IdStrutturaEsecuzione'];
+            $this->IdStrutturaEsecuzione = array_key_exists("idStrutturaExt",$val)?strtoupper($val['idStrutturaExt']):strtoupper($val['IdStrutturaEsecuzione']);
             $this->Metodica = $val['Metodica'];
-            $this->PositivitaTmp = $val['PositivitaTmp'];
+            $this->PositivitaTmp = strtoupper($val['PositivitaTmp']);
             $this->hash=hash("sha256",$this->CodiceFiscale.$this->IdStrutturaEsecuzione.$this->DataEsecuzione.$this->PositivitaTmp);
         }
         

@@ -333,6 +333,7 @@
             $this->$key = str_replace(" NOV ","-11-",strtoupper($this->$key));
             $this->$key = str_replace(" DIC ","-12-",strtoupper($this->$key));
             $this->$key = str_replace(" DEC ","-12-",strtoupper($this->$key));
+            $this->$key = (new DateTime($this->$key))->format("Y-m-d H:i:s");
         }
 
         function checkIdStrutturaIsASP(){

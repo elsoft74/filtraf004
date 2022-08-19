@@ -27,7 +27,7 @@
                     $stmt->bindParam(':hashkey',$hashkey,PDO::PARAM_STR);
                     $stmt->execute();
                     $res=$stmt->fetch(PDO::FETCH_ASSOC);
-                    $out->data=($res)?$res['presente']:0;
+                    $out->data=($res)?intval($res['presente']):0;
                     $out->status="OK";
                 } catch(Exception $ex){
                         $out->error=$ex->getMessage();

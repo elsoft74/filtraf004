@@ -19,6 +19,8 @@
 
         public static function esiste($hashkey){
             $out = new StdClass();
+            $out->status="KO";
+            $out->data=false;
             $conn = DB::conn();
             if ($conn != null){
                 try {
@@ -27,7 +29,9 @@
                     $stmt->bindParam(':hashkey',$hashkey,PDO::PARAM_STR);
                     $stmt->execute();
                     $res=$stmt->fetch(PDO::FETCH_ASSOC);
-                    $out->data=($res)?intval($res['presente']):0;
+                    if($res){
+                        $out->data=intval($res['presente']);
+                    }
                     $out->status="OK";
                 } catch(Exception $ex){
                         $out->error=$ex->getMessage();

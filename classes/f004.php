@@ -233,10 +233,11 @@
                 $this->pulisciContatti();
                 $this->pulisciMotivo();
                 if ($this->checkCF()){
-                    $out=$this->checkIsNew();
-                    if("E"!==$out){
+                    if($this->checkIsNew()){
                         DB::inserisci($this->hash);
                         $out="F";
+                    } else {
+                        $out="E";
                     }
                     } else {
                         $out = "A";
@@ -261,7 +262,7 @@
         function checkIsNew(){
             $out = DB::esiste($this->hash);
             //var_dump($out);
-            return($out->data=="1")?"E":"F";
+            return($out->data==0);
         }
 
         function pulisciNomeCognome(){

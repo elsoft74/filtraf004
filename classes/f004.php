@@ -314,6 +314,7 @@
 
         function formattaData($val,$key){
             $this->$key = $val[$key];
+            $this->$key = str_replace("-"," ",strtoupper($this->$key));
             $this->$key = str_replace(" GEN ","-01-",strtoupper($this->$key));
             $this->$key = str_replace(" JAN ","-01-",strtoupper($this->$key));
             $this->$key = str_replace(" FEB ","-02-",strtoupper($this->$key));

@@ -314,7 +314,6 @@
 
         function formattaData($val,$key){
             $this->$key = $val[$key];
-            $this->$key = str_replace("-"," ",strtoupper($this->$key));
             $this->$key = str_replace(" GEN ","-01-",strtoupper($this->$key));
             $this->$key = str_replace(" JAN ","-01-",strtoupper($this->$key));
             $this->$key = str_replace(" FEB ","-02-",strtoupper($this->$key));
@@ -335,6 +334,26 @@
             $this->$key = str_replace(" NOV ","-11-",strtoupper($this->$key));
             $this->$key = str_replace(" DIC ","-12-",strtoupper($this->$key));
             $this->$key = str_replace(" DEC ","-12-",strtoupper($this->$key));
+            $this->$key = str_replace("-GEN-","-01-",strtoupper($this->$key));
+            $this->$key = str_replace("-JAN-","-01-",strtoupper($this->$key));
+            $this->$key = str_replace("-FEB-","-02-",strtoupper($this->$key));
+            $this->$key = str_replace("-MAR-","-03-",strtoupper($this->$key));
+            $this->$key = str_replace("-APR-","-04-",strtoupper($this->$key));
+            $this->$key = str_replace("-MAG-","-05-",strtoupper($this->$key));
+            $this->$key = str_replace("-MAY-","-05-",strtoupper($this->$key));
+            $this->$key = str_replace("-GIU-","-06-",strtoupper($this->$key));
+            $this->$key = str_replace("-JUN-","-06-",strtoupper($this->$key));
+            $this->$key = str_replace("-LUG-","-07-",strtoupper($this->$key));
+            $this->$key = str_replace("-JUL-","-07-",strtoupper($this->$key));
+            $this->$key = str_replace("-AGO-","-08-",strtoupper($this->$key));
+            $this->$key = str_replace("-AUG-","-08-",strtoupper($this->$key));
+            $this->$key = str_replace("-SET-","-09-",strtoupper($this->$key));
+            $this->$key = str_replace("-SEP-","-09-",strtoupper($this->$key));
+            $this->$key = str_replace("-OTT-","-10-",strtoupper($this->$key));
+            $this->$key = str_replace("-OCT-","-10-",strtoupper($this->$key));
+            $this->$key = str_replace("-NOV-","-11-",strtoupper($this->$key));
+            $this->$key = str_replace("-DIC-","-12-",strtoupper($this->$key));
+            $this->$key = str_replace("-DEC-","-12-",strtoupper($this->$key));
             if (strlen($this->$key)==10){
                 $this->$key = (new DateTime($this->$key))->format("Y-m-d");
             } else {

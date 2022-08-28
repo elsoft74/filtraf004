@@ -1,5 +1,5 @@
 function upload() {
-    var f = $("#formFile").prop("files")[0];
+    var f = $("#formFiles").prop("files");
     if (f == undefined) {
         Swal.fire({
             text: "Nessun file da dividere.",
@@ -13,9 +13,12 @@ function upload() {
     let url = "be/upload.php";
     var formData = new FormData();
     formData.append("invia",$("#invia").prop("checked"));
-    formData.append("cancella",$("#cancella").prop("checked"));
-    formData.append("file", f);
+    formData.append("files", f.length);
+    for (i=0;i<f.length;i++){
+        formData.append("file"+i,f[i]);
+    }
     formData.append("etichetta",$("#formEtichetta").val());
+
     xhr.open("POST", url, true);
     xhr.onreadystatechange = function () {
         try {

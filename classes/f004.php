@@ -92,6 +92,7 @@
             $out = new StdClass();
             $out->status = "KO";
             $out->data = new StdClass();
+            $out->parsed = [];
             
             try {
                 if(null!=$fileTmpLoc){
@@ -109,50 +110,56 @@
                     $tmpObj->spread = F004::inizializza();
                     $tmpObj->spreadArray = [];
                     $spreadsheets['ESISTENTI']=$tmpObj;
-                    
-                    $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($fileTmpLoc);
-                    $reader->setReadDataOnly(true);
-                    $spreadsheet = $reader->load($fileTmpLoc);
-                    $worksheet = $spreadsheet->getActiveSheet();//->toArray(null, true, true, true);
-                    $rows = [];
-                    foreach ($worksheet->getRowIterator() AS $row) {
-                        $cellIterator = $row->getCellIterator();
-                        $cellIterator->setIterateOnlyExistingCells(FALSE); // This loops through all cells,
-                        $cells = [];
-                        foreach ($cellIterator as $cell) {
-                            $cells[] = $cell->getValue();
+                    foreach($fileTmpLoc as $file){
+                        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
+                        $reader->setReadDataOnly(false); // Dovrebbe permettere di interpreare sempre correttamente le date 
+                        $spreadsheet = $reader->load($file);
+                        $worksheet = $spreadsheet->getActiveSheet();//->toArray(null, true, true, true);
+                        $rows = [];
+                        unset($keys); // vanno rimosse ad ogni lettura per non far rileggere la prima riga
+                        foreach ($worksheet->getRowIterator() AS $row) {
+                            $cellIterator = $row->getCellIterator();
+                            $cellIterator->setIterateOnlyExistingCells(FALSE); // This loops through all cells,
+                            $cells = [];
+                            foreach ($cellIterator as $cell) {
+                                $cells[] = $cell->getValue();
+                            }
+                            if (isset($keys)) {
+                                $rows[] = array_combine($keys, $cells);
+                            } else {
+                                $keys = $cells;
+                            }
                         }
-                        if (isset($keys)) {
-                            $rows[] = array_combine($keys, $cells);
-                        } else {
-                            $keys = $cells;
+                        foreach($rows as $row){
+                            $elemento = new F004($row);
+                            switch($elemento->controlla()){
+                                case "F":
+                                    array_push($spreadsheets['F004']->spreadArray,$elemento->asArray());
+                                    break;
+                                case "E":
+                                    array_push($spreadsheets['ESISTENTI']->spreadArray,$elemento->asArray());
+                                    break;
+                                case "A":
+                                    array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
+                                    break;
+                            }
                         }
+                        array_push($out->parsed,$file);
                     }
-                    foreach($rows as $row){
-                        $elemento = new F004($row);
-                        switch($elemento->controlla()){
-                            case "F":
-                                array_push($spreadsheets['F004']->spreadArray,$elemento->asArray());
-                                break;
-                            case "E":
-                                array_push($spreadsheets['ESISTENTI']->spreadArray,$elemento->asArray());
-                                break;
-                            case "A":
-                                array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
-                                break;
-                        }
-                    }   
                     F004::genera($spreadsheets['ALTRI'],"F004_ALTRI_".$etichetta);
                     F004::genera($spreadsheets['F004'],"F004_".$etichetta);
                     F004::genera($spreadsheets['ESISTENTI'],"F004_ESISTENTI_".$etichetta);
 
                     $out->status="OK";
                 } else {
-                    throw new Exception("Impossibile leggere il file");
+                    throw new Exception("Impossibile leggere l'input");
                 }
 
             } catch (Exception $ex){
                 $out->error = $ex->getMessage();
+                $out->A=$spreadsheets['ALTRI']->spreadArray;
+                $out->F=$spreadsheets['F004']->spreadArray;
+                $out->E=$spreadsheets['ESISTENTI']->spreadArray;
             }
             
             return $out;   
@@ -240,7 +247,10 @@
                         $out="E";
                     }
                     } else {
-                        $out = "A";
+                        if($this->checkIsNew()){
+                            DB::inserisci($this->hash);
+                            $out="A";
+                        }
                     }
                 }
             return $out;

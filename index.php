@@ -35,8 +35,8 @@
         <!-- <form enctype="multipart/form-data" method="post" action="be/upload.php"> -->
         <form enctype="multipart/form-data" method="post">
             <div class="mb-3">
-                <label for="formFile" class="form-label">File excel da <i>"pulire"</i></label>
-                <input class="form-control" name="file" type="file" id="formFile" accept=".xls, .xlsx, .csv">
+                <label for="formFiles" class="form-label">File excel da <i>"pulire"</i></label>
+                <input class="form-control" name="files[]" type="file" id="formFiles" accept=".xls, .xlsx, .csv" multiple>
             </div>
             <div class="mb-3">
                 <label for="formEtichetta" class="form-label">Etichetta per file di output</label>

@@ -216,6 +216,7 @@
             $file->getActiveSheet()->getStyle('AB:AB')->getNumberFormat()->setFormatCode('dd/mm/yyyy');
             $file->getActiveSheet()->getStyle('AD:AD')->getNumberFormat()->setFormatCode('dd/mm/yyyy');
             $file->getActiveSheet()->getStyle('AE:AE')->getNumberFormat()->setFormatCode('dd/mm/yyyy');
+            $file->getActiveSheet()->getStyle('L:L')->getNumberFormat()->setFormatCode('@');
             $file->getActiveSheet()->freezePane('A2');
             $file->getActiveSheet()->getStyle("A:AH")->getFont()->setSize(11);
             foreach(range('A','AH') as $columnID) {

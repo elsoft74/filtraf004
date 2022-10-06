@@ -335,9 +335,6 @@
         function formattaData($val,$key){
 
             $this->$key = $val[$key];
-            if($key=="DataDecesso"){
-                echo("DataDecesso:".$val[$key]."-");
-            }
             if($this->$key!=""){
                 $this->$key = str_replace(" GEN ","-01-",strtoupper($this->$key));
                 $this->$key = str_replace(" JAN ","-01-",strtoupper($this->$key));

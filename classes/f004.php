@@ -111,6 +111,10 @@
                     $tmpObj->spread = F004::inizializza();
                     $tmpObj->spreadArray = [];
                     $spreadsheets['ESISTENTI']=$tmpObj;
+                    $tmpObj = new StdClass();
+                    $tmpObj->spread = F004::inizializza();
+                    $tmpObj->spreadArray = [];
+                    $spreadsheets['ALTREASP']=$tmpObj
                     foreach($fileTmpLoc as $file){
                         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
                         $reader->setReadDataOnly(false); // Dovrebbe permettere di interpreare sempre correttamente le date 

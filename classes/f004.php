@@ -165,7 +165,7 @@
                 $out->A=$spreadsheets['ALTRI']->spreadArray;
                 $out->F=$spreadsheets['F004']->spreadArray;
                 $out->E=$spreadsheets['ESISTENTI']->spreadArray;
-                $out->E=$spreadsheets['ALTREASP']->spreadArray;
+                $out->O=$spreadsheets['ALTREASP']->spreadArray;
             }
             
             return $out;   

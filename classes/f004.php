@@ -143,6 +143,9 @@
                                 case "A":
                                     array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
                                     break;
+                                case "O":
+                                    array_push($spreadsheets['ALTREASP']->spreadArray,$elemento->asArray());
+                                    break;
                             }
                         }
                         array_push($out->parsed,$file);
@@ -150,6 +153,7 @@
                     F004::genera($spreadsheets['ALTRI'],"F004_ALTRI_".$etichetta);
                     F004::genera($spreadsheets['F004'],"F004_".$etichetta);
                     F004::genera($spreadsheets['ESISTENTI'],"F004_ESISTENTI_".$etichetta);
+                    F004::genera($spreadsheets['ALTREASP'],"F004_ALTREASP_".$etichetta);
 
                     $out->status="OK";
                 } else {
@@ -161,6 +165,7 @@
                 $out->A=$spreadsheets['ALTRI']->spreadArray;
                 $out->F=$spreadsheets['F004']->spreadArray;
                 $out->E=$spreadsheets['ESISTENTI']->spreadArray;
+                $out->E=$spreadsheets['ALTREASP']->spreadArray;
             }
             
             return $out;   
@@ -244,14 +249,14 @@
                 if ($this->checkCF()){
                     if($this->checkIsNew()){
                         DB::inserisci($this->hash);
-                        $out="F";
+                        $out=($this->check205())?"F":"O";
                     } else {
                         $out="E";
                     }
                     } else {
                         if($this->checkIsNew()){
                             DB::inserisci($this->hash);
-                            $out="A";
+                            $out=($this->check205())?"A":"O";
                         }
                     }
                 }
@@ -275,6 +280,10 @@
             $out = DB::esiste($this->hash);
             //var_dump($out);
             return($out->data==0);
+        }
+        
+        function check205(){
+            return ($this->IdAspCompetenza=="205" || $this->IdAspCompetenza==205);
         }
 
         function pulisciNomeCognome(){

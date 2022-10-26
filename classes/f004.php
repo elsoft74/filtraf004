@@ -113,7 +113,7 @@
                     $spreadsheets['ESISTENTI']=$tmpObj;
                     $tmpObj = new StdClass();
                     $tmpObj->spread = F004::inizializza();
-                    $tmpObj->spreadArray = new \Ds\Set(); //[];
+                    $tmpObj->spreadArray = [];
                     $spreadsheets['ALTREASP']=$tmpObj;
                     foreach($fileTmpLoc as $file){
                         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
@@ -142,8 +142,7 @@
                                     array_push($spreadsheets['F004']->spreadArray,$elemento->asArray());
                                     break;
                                 case "E":
-                                    //array_push($spreadsheets['ESISTENTI']->spreadArray,$elemento->asArray());
-                                    $spreadsheets['ESISTENTI']->spreadArray->add($elemento->asArray());
+                                    array_push($spreadsheets['ESISTENTI']->spreadArray,$elemento->asArray());
                                     break;
                                 case "A":
                                     array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
@@ -155,7 +154,6 @@
                         }
                         array_push($out->parsed,$file);
                     }
-                    $spreadsheets['ESISTENTI']->spreadArray=$spreadsheets['ESISTENTI']->spreadArray->toArray();
                     F004::genera($spreadsheets['ALTRI'],"F004_ALTRI_".$etichetta);
                     F004::genera($spreadsheets['F004'],"F004_".$etichetta);
                     F004::genera($spreadsheets['ESISTENTI'],"F004_ESISTENTI_".$etichetta);

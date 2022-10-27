@@ -324,7 +324,7 @@
             }
 
             $this->Telefono = (count($telArr)>0)?$telArr[0]:"";
-            if (strlen($this->Telefono)<7 || intval($this->Telefono || strlen($this->Telefono)>13)==0){
+            if (strlen($this->Telefono)<7 || intval($this->Telefono)==0 || strlen($this->Telefono)>13){
                 $this->Telefono="";
             }
             

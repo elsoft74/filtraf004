@@ -1,7 +1,8 @@
 {
     "require": {
         "phpoffice/phpspreadsheet": "^1.23",
-        "phpmailer/phpmailer": "^6.5"
+        "phpmailer/phpmailer": "^6.5",
+        "php-ds/php-ds": "^1.4"
     },
     "config": {
         "platform": {

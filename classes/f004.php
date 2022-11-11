@@ -101,7 +101,8 @@
                     
                     $tmpObj = new StdClass();
                     $tmpObj->spread = F004::inizializza();
-                    $tmpObj->spreadArray = [];
+                    //$tmpObj->spreadArray = [];
+                    $tmpObj->spreadArray = new \Ds\Set();
                     $spreadsheets['ALTRI']=$tmpObj;
                     $tmpObj = new StdClass();
                     $tmpObj->spread = F004::inizializza();
@@ -110,11 +111,12 @@
                     $tmpObj = new StdClass();
                     $tmpObj->spread = F004::inizializza();
                     // $tmpObj->spreadArray = [];
-                    $tmpObj->spreadArray = new \Ds\Set();;
+                    $tmpObj->spreadArray = new \Ds\Set();
                     $spreadsheets['ESISTENTI']=$tmpObj;
                     $tmpObj = new StdClass();
                     $tmpObj->spread = F004::inizializza();
-                    $tmpObj->spreadArray = [];
+                    //$tmpObj->spreadArray = [];
+                    $tmpObj->spreadArray = new \Ds\Set();
                     $spreadsheets['ALTREASP']=$tmpObj;
                     foreach($fileTmpLoc as $file){
                         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
@@ -147,16 +149,20 @@
                                     // array_push($spreadsheets['ESISTENTI']->spreadArray,$elemento->asArray());
                                     break;
                                 case "A":
-                                    array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
+                                    $spreadsheets['ALTRI']->spreadArray->add($elemento->asArray());
+                                    //array_push($spreadsheets['ALTRI']->spreadArray,$elemento->asArray());
                                     break;
                                 case "O":
-                                    array_push($spreadsheets['ALTREASP']->spreadArray,$elemento->asArray());
+                                    $spreadsheets['ALTREASP']->spreadArray->add($elemento->asArray());
+                                    //array_push($spreadsheets['ALTREASP']->spreadArray,$elemento->asArray());
                                     break;
                             }
                         }
                         array_push($out->parsed,$file);
                     }
                     $spreadsheets['ESISTENTI']->spreadArray=$spreadsheets['ESISTENTI']->spreadArray->toArray();
+                    $spreadsheets['ALTRI']->spreadArray=$spreadsheets['ALTRI']->spreadArray->toArray();
+                    $spreadsheets['ALTREASP']->spreadArray=$spreadsheets['ALTREASP']->spreadArray->toArray();
                     F004::genera($spreadsheets['ALTRI'],"F004_ALTRI_".$etichetta);
                     F004::genera($spreadsheets['F004'],"F004_".$etichetta);
                     F004::genera($spreadsheets['ESISTENTI'],"F004_ESISTENTI_".$etichetta);
